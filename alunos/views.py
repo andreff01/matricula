@@ -1,35 +1,44 @@
-from django.urls import reverse_lazy
-from django.views import generic
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Aluno
 from .forms import AlunoForm
 
-class AlunoListView(generic.ListView):
-    model = Aluno
-    template_name = 'alunos/aluno_list.html'
-    context_object_name = 'alunos'
+
+def aluno_listar(request):
+    alunos = Aluno.objects.all()
+    return render(request, 'alunos/aluno_list.html', {'alunos': alunos})
 
 
-class AlunoCreateView(generic.CreateView):
-    model = Aluno
-    form_class = AlunoForm
-    template_name = 'alunos/aluno_form.html'
-    success_url = reverse_lazy('aluno_list')
+def aluno_criar(request):
+    if request.method == 'POST':
+        form = AlunoForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('aluno_list')
+    else:
+        form = AlunoForm()
+    return render(request, 'alunos/aluno_form.html', {'form': form})
 
 
-class AlunoDetailView(generic.DetailView):
-    model = Aluno
-    template_name = 'alunos/aluno_detail.html'
-    context_object_name = 'aluno'
+def aluno_detalhe(request, id):
+    aluno = get_object_or_404(Aluno, id=id)
+    return render(request, 'alunos/aluno_detail.html', {'aluno': aluno})
 
 
-class AlunoUpdateView(generic.UpdateView):
-    model = Aluno
-    form_class = AlunoForm
-    template_name = 'alunos/aluno_form.html'
-    success_url = reverse_lazy('aluno_list')
+def aluno_editar(request, id):
+    aluno = get_object_or_404(Aluno, id=id)
+    if request.method == 'POST':
+        form = AlunoForm(request.POST, request.FILES, instance=aluno)
+        if form.is_valid():
+            form.save()
+            return redirect('aluno_list')
+    else:
+        form = AlunoForm(instance=aluno)
+    return render(request, 'alunos/aluno_form.html', {'form': form, 'aluno': aluno})
 
 
-class AlunoDeleteView(generic.DeleteView):
-    model = Aluno
-    template_name = 'alunos/aluno_confirm_delete.html'
-    success_url = reverse_lazy('aluno_list')
+def aluno_remover(request, id):
+    aluno = get_object_or_404(Aluno, id=id)
+    if request.method == 'POST':
+        aluno.delete()
+        return redirect('aluno_list')
+    return render(request, 'alunos/aluno_confirm_delete.html', {'aluno': aluno})

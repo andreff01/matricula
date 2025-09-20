@@ -68,6 +68,10 @@ python manage.py runserver
 
 Abra http://127.0.0.1:8000/ no navegador para ver a lista de alunos.
 
+## Vídeo de Apresentação
+
+Vídeo de Apresentação na pasta `video/` arquivo `apresentacao.mp4`
+
 Instalação
 
 ```powershell
