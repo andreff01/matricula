@@ -1,0 +1,5 @@
+/* Estilos simples para melhorar espaçamento e aparência */
+body { background: #f8f9fa; }
+.list-group-item { background: #fff; border-radius: 6px; margin-bottom: 8px; }
+.card { border-radius: 8px; }
+.form-control { border-radius: 6px; }

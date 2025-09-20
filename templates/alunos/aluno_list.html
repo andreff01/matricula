@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Lista de Alunos{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h4">Alunos</h1>
+  <a class="btn btn-primary" href="/novo/"><i class="bi bi-plus-lg"></i> Cadastrar Aluno</a>
+</div>
+
+<div class="list-group">
+  {% for aluno in alunos %}
+  <div class="list-group-item d-flex align-items-center justify-content-between">
+    <div>
+      <div class="fw-bold">{{ aluno.numero_matricula }} — {{ aluno.nome }}</div>
+      <div class="text-muted small">{{ aluno.curso }} · {{ aluno.serie }} · CPF: {{ aluno.cpf }}</div>
+    </div>
+    <div class="text-end">
+      {% if aluno.turno == 'manha' %}
+        <span class="badge bg-warning me-1">Manhã</span>
+      {% elif aluno.turno == 'tarde' %}
+        <span class="badge bg-info text-dark me-1">Tarde</span>
+      {% elif aluno.turno == 'noite' %}
+        <span class="badge bg-dark me-1">Noite</span>
+      {% elif aluno.turno == 'integral' %}
+        <span class="badge bg-primary me-1">Integral</span>
+      {% endif %}
+      {% if aluno.status == 'ativo' %}
+        <span class="badge bg-success me-2">Ativo</span>
+      {% else %}
+        <span class="badge bg-danger me-2">Inativo</span>
+      {% endif %}
+      <a class="btn btn-sm btn-outline-info me-1" href="{% url 'aluno_detail' aluno.pk %}"><i class="bi bi-eye"></i></a>
+      <a class="btn btn-sm btn-outline-warning me-1" href="{% url 'aluno_update' aluno.pk %}"><i class="bi bi-pencil"></i></a>
+      <a class="btn btn-sm btn-outline-danger" href="{% url 'aluno_delete' aluno.pk %}"><i class="bi bi-trash"></i></a>
+    </div>
+  </div>
+  {% empty %}
+  <div class="list-group-item">Nenhum aluno cadastrado.</div>
+  {% endfor %}
+</div>
+{% endblock %}

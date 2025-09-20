@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Detalhes do Aluno{% endblock %}
+{% block content %}
+<h1>Detalhes</h1>
+<dl class="row">
+  <dt class="col-sm-3">Matrícula</dt><dd class="col-sm-9">{{ aluno.numero_matricula }}</dd>
+  <dt class="col-sm-3">Nome</dt><dd class="col-sm-9">{{ aluno.nome }}</dd>
+  <dt class="col-sm-3">CPF</dt><dd class="col-sm-9">{{ aluno.cpf }}</dd>
+  <dt class="col-sm-3">Data Nascimento</dt><dd class="col-sm-9">{{ aluno.data_nascimento }}</dd>
+  <dt class="col-sm-3">Sexo</dt><dd class="col-sm-9">{{ aluno.get_sexo_display }}</dd>
+  <dt class="col-sm-3">E-mail</dt><dd class="col-sm-9">{{ aluno.email }}</dd>
+  <dt class="col-sm-3">Telefone</dt><dd class="col-sm-9">{{ aluno.telefone }}</dd>
+  <dt class="col-sm-3">Endereço</dt><dd class="col-sm-9">{{ aluno.endereco }}, {{ aluno.numero }} - {{ aluno.bairro }} - {{ aluno.cidade }}/{{ aluno.uf }}</dd>
+  <dt class="col-sm-3">Curso</dt><dd class="col-sm-9">{{ aluno.curso }}</dd>
+  <dt class="col-sm-3">Série</dt><dd class="col-sm-9">{{ aluno.serie }}</dd>
+  <dt class="col-sm-3">Turno</dt><dd class="col-sm-9">{{ aluno.get_turno_display }}</dd>
+  <dt class="col-sm-3">Status</dt><dd class="col-sm-9">{{ aluno.get_status_display }}</dd>
+  <dt class="col-sm-3">Observações</dt><dd class="col-sm-9">{{ aluno.observacoes }}</dd>
+</dl>
+<a class="btn btn-secondary" href="/">Voltar</a>
+<a class="btn btn-warning" href="{% url 'aluno_update' aluno.pk %}">Editar</a>
+<a class="btn btn-danger" href="{% url 'aluno_delete' aluno.pk %}">Excluir</a>
+{% endblock %}
