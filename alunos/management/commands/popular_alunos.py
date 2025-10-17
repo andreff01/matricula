@@ -21,7 +21,6 @@ class Command(BaseCommand):
     help = 'Popula o banco com 100 alunos de teste.'
 
     def handle(self, *args, **kwargs):
-        # Remove todos os alunos antes de popular
         Aluno.objects.all().delete()
         criados = 0
         for i in range(1, 101):
