@@ -4,8 +4,37 @@ from .forms import AlunoForm
 
 
 def aluno_listar(request):
+    # Filtros
+    nome = request.GET.get('nome', '').strip()
+    status = request.GET.get('status', '').strip()
     alunos = Aluno.objects.all()
-    return render(request, 'alunos/aluno_list.html', {'alunos': alunos})
+    if nome:
+        alunos = alunos.filter(nome__icontains=nome)
+    if status:
+        alunos = alunos.filter(status=status)
+
+    # Paginação
+    from django.core.paginator import Paginator
+    paginator = Paginator(alunos, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Info de paginação
+    total = paginator.count
+    start = (page_obj.number - 1) * paginator.per_page + 1 if total > 0 else 0
+    end = start + len(page_obj.object_list) - 1 if total > 0 else 0
+
+    context = {
+        'alunos': page_obj.object_list,
+        'page_obj': page_obj,
+        'paginator': paginator,
+        'total': total,
+        'start': start,
+        'end': end,
+        'nome': nome,
+        'status': status,
+    }
+    return render(request, 'alunos/aluno_list.html', context)
 
 
 def aluno_criar(request):
